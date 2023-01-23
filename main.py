@@ -51,6 +51,7 @@ def main(page:ft.Page):
         #Create a Folder named MSABB
         create_folder('MSABB')
         progress_counter=0
+        ts=0
         progress_bar_column.visible = True
         start_time = time.time()
         iter_number = len(section)*len(matieres)*(year_range[1]-year_range[0])*len(sessions)
@@ -82,6 +83,7 @@ def main(page:ft.Page):
                                 for block in response.iter_content(chunk_size=1024):
                                     pdf.write(block)
                             progress_text.value=f"Downloaded: {url}"
+                            ts+=1
                         if not(success): #Fail
                             progress_text.value=f"Doesnt exist: {url}"
 
