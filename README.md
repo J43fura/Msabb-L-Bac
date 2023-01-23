@@ -1,4 +1,10 @@
 # Msabb-L-Bac
-tsobb li t7b 3lih fel bacweb.tn taktak
+tsobb li t7b 3lih mel bacweb.tn taktak
 
-TODO: UI, Mobile app
+### Tasks
+
+- [ ] Mobile app
+
+### Completed Tasks ✓
+
+- [x] GUI
