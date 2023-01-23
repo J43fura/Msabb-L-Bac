@@ -1,8 +1,6 @@
-
 import requests, os
 import flet as ft
 import time
-
 
 matieres_fix = 'math','philo','francais','arabe','anglais'
 section_matieres = {
@@ -95,14 +93,12 @@ def main(page:ft.Page):
         progress_text.value = f"Downloaded {ts} files in {int(end_time-start_time)} seconds."
         page.update()
 
-
     #Section
     page.add(ft.Text("Section:"))
 
     #Download Button
     download_button = ft.ElevatedButton("Download",icon="DOWNLOAD",on_click=Download,visible=False)
     page.add(download_button)
-
 
     #Matieres du section
     def matieres_update(e):
@@ -128,8 +124,6 @@ def main(page:ft.Page):
         options=[ft.dropdown.Option(section) for section in section_matieres.keys()],on_change=matieres_update,
     )
     page.add(section_in)
-    
-
 
     #SESSIONS
     global session_princiaple_in,session_controle_in
@@ -169,7 +163,6 @@ def main(page:ft.Page):
         options=[ft.dropdown.Option(option) for option in options])
     page.add(option_in)
 
-
     #matieres
     page.add(ft.Text("Matieres:"))
     global progress_bar
@@ -178,8 +171,6 @@ def main(page:ft.Page):
     progress_bar = ft.ProgressBar()
     progress_bar_column = ft.Column([ progress_text, progress_bar],visible=False)
     page.add(progress_bar_column)
-
-
 
 ft.app(target=main)
 
