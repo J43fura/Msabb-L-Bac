@@ -92,7 +92,7 @@ def main(page:ft.Page):
                         page.update()
         
         end_time = time.time()
-        progress_text.value = f"Downloaded {len(ts)} files in {int(end_time-start_time)} seconds."
+        progress_text.value = f"Downloaded {ts} files in {int(end_time-start_time)} seconds."
         page.update()
 
 
@@ -159,7 +159,7 @@ def main(page:ft.Page):
 
     year_max_in = ft.Text()
     page.add(
-        ft.Text("Jusqu'a l'année:"),
+        ft.Text("A l'année:"),
         ft.Slider(min=2009, max=2030, divisions=(21), label="{value}", on_change=slider_changedMax), year_max_in)
 
     #OPTION
