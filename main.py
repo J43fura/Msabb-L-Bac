@@ -34,18 +34,18 @@ def main(page:ft.Page):
     def Download(e):
         #Example: Year:2022, sessions:principale, Section:math, Matiere (Subject):math 
         #http://www.bacweb.tn/bac/2022/principale/math/math.pdf
-        sessions=[]
-        matieres=[]
-        for mat in matieres_in:
-            if mat.value:
-                matieres.append(mat.label)
-                if correction_in.value:
-                    matieres.append( f"{mat.label}_c")
-        if option_in.value != None:
+
+        #Matieres
+        matieres= [mat.label if not correction_in.value else [mat.label, f"{mat.label}_c"] for mat in matieres_in if mat.value] #"matiere"; "matiere","matiere_c" if correction_in
+        matieres= [element for sublist in matieres for element in sublist] if correction_in.value else matieres #Unravel if correction_in
+        #Option
+        if option_in.value:
             matieres.append(option_in.value)
-        for session_in in session_princiaple_in,session_controle_in:
-            if session_in.value == True:
-                sessions.append((session_in.label).lower())
+
+        #Sessions
+        sessions = [(session_in.label).lower() for session_in in (session_princiaple_in,session_controle_in) if session_in.value]
+
+        
         #Create a Folder named MSABB
         create_folder('MSABB')
         progress_counter=0
@@ -92,6 +92,7 @@ def main(page:ft.Page):
         end_time = time.time()
         progress_text.value = f"Downloaded {ts} files in {int(end_time-start_time)} seconds."
         page.update()
+        
 
     #Section
     page.add(ft.Text("Section:"))
@@ -163,7 +164,7 @@ def main(page:ft.Page):
         options=[ft.dropdown.Option(option) for option in options])
     page.add(option_in)
 
-    #matieres
+    #MATIERES
     page.add(ft.Text("Matieres:"))
     global progress_bar
     global progress_text
