@@ -110,14 +110,14 @@ def main(page:ft.Page):
         if (matieres_in is not(None)):
             for matiere_in in matieres_in:
                 page.remove(matiere_in)
-            else:
-                matieres_in = []
-                for matiere in section_matieres[section_in.value]:
-                    matiere = ft.Checkbox(label=matiere, value=True)
-                    page.add(matiere)    
-                    matieres_in.append(matiere)
-                page.add(download_button)
-                download_button.visible = True
+                
+            matieres_in = []
+            for matiere in section_matieres[section_in.value]:
+                matiere = ft.Checkbox(label=matiere, value=True)
+                page.add(matiere)    
+                matieres_in.append(matiere)
+            page.add(download_button)
+            download_button.visible = True
 
         page.update()
 
