@@ -122,7 +122,7 @@ def main(page:ft.Page):
         page.update()
 
     section_in = ft.Dropdown(
-        options=[ft.dropdown.Option(section) for section in section_matieres.keys()],on_change=matieres_update,
+        options=[ft.dropdown.Option(section) for section in section_matieres],on_change=matieres_update,
     )
     page.add(section_in)
 
