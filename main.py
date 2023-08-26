@@ -1,6 +1,5 @@
 import os
 import time
-
 import flet as ft
 import requests
 
@@ -30,11 +29,11 @@ options = (
 year_range = [2020, 2023]  # Year Range
 
 
-def create_folder(t):
+def create_folder(*t):
     global dir_path
-    dir_path = os.path.join(os.getcwd(), t)
+    dir_path = os.path.join(os.getcwd(), *t)
     if not os.path.exists(dir_path):
-        os.mkdir(dir_path, 0o666)
+        os.mkdir(dir_path, 0o777)
 
 
 # GUI with FLET
@@ -86,9 +85,9 @@ def main(page: ft.Page):
             * len(sessions)
         )
         for sect in section:  # Create a Folder of the Section
-            create_folder(f"MSABB\\BAC {sect}")
+            create_folder("MSABB",f"BAC {sect}")
             for mat in matieres:  # Create a Folder of the "Matiere" inside the Section
-                create_folder(f"MSABB\\BAC {sect}\\{mat}")
+                create_folder("MSABB",f"BAC {sect}",f"{mat}")
                 # Loop through the years (year).
                 for year in range(*year_range):
                     for sess in sessions:  # Loop through the sessions
