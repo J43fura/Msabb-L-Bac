@@ -127,7 +127,7 @@ def main(page: ft.Page):
                             with open(
                                 os.path.join(
                                     dir_path,
-                                    f"{mat.upper()}-{year}-{sess[0].upper()}.pdf",
+                                    f"{mat.upper()} {year} {sess}.pdf",
                                 ),
                                 "wb",
                             ) as pdf:  # Create the pdf.
