@@ -12,7 +12,10 @@
 ![Screenshot 2023-01-23 215636](https://user-images.githubusercontent.com/73950268/214150380-78eb76c0-09f2-47e8-adfa-02067668e7ad.png)
 
 ## To run
+Install packages
 
 `pip install -r requirements.txt`
+
+Run
 
 `py main.py`
