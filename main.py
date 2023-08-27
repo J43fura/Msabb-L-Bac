@@ -1,5 +1,6 @@
 import os
 import time
+
 import flet as ft
 import requests
 
@@ -7,7 +8,8 @@ matieres_fix = "math", "philo", "francais", "arabe", "anglais"
 section_matieres = {
     "math": ["info", "svt", "physique", *matieres_fix],
     "sciences_ex": ["info", "svt", "physique", *matieres_fix],
-    "economie_gestion": ["economie", "gestion", "his_geo", "info", *matieres_fix],
+    "economie_gestion":
+    ["economie", "gestion", "his_geo", "info", *matieres_fix],
     "technique": ["technique", "info", "physique", *matieres_fix],
     "lettre": ["pensee", "his_geo", "info", "svt", *matieres_fix],
     "sport": ["sport", "info", "svt", "physique", *matieres_fix],
@@ -51,26 +53,23 @@ def main(page: ft.Page):
 
         # Matieres
         matieres = [
-            mat.label if not correction_in.value else [
-                mat.label, f"{mat.label}_c"]
-            for mat in matieres_in
-            if mat.value
+            mat.label
+            if not correction_in.value else [mat.label, f"{mat.label}_c"]
+            for mat in matieres_in if mat.value
         ]  # "matiere"; "matiere","matiere_c" if correction_in
         matieres = (
-            [element for sublist in matieres for element in sublist]
-            if correction_in.value
-            else matieres
+            [element for sublist in matieres
+             for element in sublist] if correction_in.value else matieres
         )  # Unravel if correction_in
         # Option
         if option_in.value:
             matieres.append(option_in.value)
 
         # Sessions
-        sessions = [
-            (session_in.label).lower()
-            for session_in in (session_princiaple_in, session_controle_in)
-            if session_in.value
-        ]
+        sessions = [(session_in.label).lower()
+                    for session_in in (session_princiaple_in,
+                                       session_controle_in)
+                    if session_in.value]
 
         # Create a Folder named MSABB
         create_folder("MSABB")
@@ -78,16 +77,12 @@ def main(page: ft.Page):
         ts = 0
         progress_bar_column.visible = True
         start_time = time.time()
-        iter_number = (
-            len(section)
-            * len(matieres)
-            * (year_range[1] - year_range[0])
-            * len(sessions)
-        )
+        iter_number = (len(section) * len(matieres) *
+                       (year_range[1] - year_range[0]) * len(sessions))
         for sect in section:  # Create a Folder of the Section
-            create_folder("MSABB",f"BAC {sect}")
+            create_folder("MSABB", f"BAC {sect}")
             for mat in matieres:  # Create a Folder of the "Matiere" inside the Section
-                create_folder("MSABB",f"BAC {sect}",f"{mat}")
+                create_folder("MSABB", f"BAC {sect}", f"{mat}")
                 # Loop through the years (year).
                 for year in range(*year_range):
                     for sess in sessions:  # Loop through the sessions
@@ -99,24 +94,18 @@ def main(page: ft.Page):
                         # option: all.
                         url = (
                             f"http://www.bacweb.tn/bac/{str(year)}/{sess}/math/{mat}.pdf"
-                            if (
-                                mat in ["philo", "arabe"]
-                                and sect
-                                in [
-                                    "technique",
-                                    "economie_gestion",
-                                    "sciences_ex",
-                                    "informatique",
-                                ]
-                            )
-                            or (
-                                mat in ["francais", "anglais"]
-                                and sect
-                                in ["economie_gestion", "sciences_ex", "informatique"]
-                            )
-                            or (mat == "info" and sect in ["technique", "sciences_ex"])
-                            or (mat == option_in.value)
-                            else f"http://www.bacweb.tn/bac/{str(year)}/{sess}/{sect}/{mat}.pdf"
+                            if (mat in ["philo", "arabe"] and sect in [
+                                "technique",
+                                "economie_gestion",
+                                "sciences_ex",
+                                "informatique",
+                            ]) or (mat in ["francais", "anglais"] and sect in [
+                                "economie_gestion", "sciences_ex",
+                                "informatique"
+                            ]) or (mat == "info"
+                                   and sect in ["technique", "sciences_ex"]) or
+                            (mat == option_in.value) else
+                            f"http://www.bacweb.tn/bac/{str(year)}/{sess}/{sect}/{mat}.pdf"
                         )
                         progress_text.value = f"Downloading: {url}"
                         page.update()
@@ -125,13 +114,14 @@ def main(page: ft.Page):
                         if response.status_code == 200:  # Success
                             success = True
                             with open(
-                                os.path.join(
-                                    dir_path,
-                                    f"{mat.upper()}-{year}-{sess[0].upper()}.pdf",
-                                ),
-                                "wb",
+                                    os.path.join(
+                                        dir_path,
+                                        f"{mat.upper()} {year} {sess}.pdf",
+                                    ),
+                                    "wb",
                             ) as pdf:  # Create the pdf.
-                                for block in response.iter_content(chunk_size=1024):
+                                for block in response.iter_content(
+                                        chunk_size=1024):
                                     pdf.write(block)
                             progress_text.value = f"Downloaded: {url}"
                             ts += 1
@@ -144,17 +134,17 @@ def main(page: ft.Page):
 
         end_time = time.time()
         progress_text.value = (
-            f"Downloaded {ts} files in {int(end_time-start_time)} seconds."
-        )
+            f"Downloaded {ts} files in {int(end_time-start_time)} seconds.")
         page.update()
 
     # Section
     page.add(ft.Text("Section:"))
 
     # Download Button
-    download_button = ft.ElevatedButton(
-        "Download", icon="DOWNLOAD", on_click=Download, visible=False
-    )
+    download_button = ft.ElevatedButton("Download",
+                                        icon="DOWNLOAD",
+                                        on_click=Download,
+                                        visible=False)
     page.add(download_button)
 
     # Matieres du section
@@ -186,8 +176,8 @@ def main(page: ft.Page):
     # SESSIONS
     global session_princiaple_in, session_controle_in
     session_princiaple_in, session_controle_in = ft.Checkbox(
-        label="Principale", value=True
-    ), ft.Checkbox(label="Controle", value=True)
+        label="Principale", value=True), ft.Checkbox(label="Controle",
+                                                     value=True)
     page.add(ft.Text("Sessions:"), session_princiaple_in, session_controle_in)
 
     # CORRECTION
@@ -245,8 +235,8 @@ def main(page: ft.Page):
     global progress_text
     progress_text = ft.Text()
     progress_bar = ft.ProgressBar()
-    progress_bar_column = ft.Column(
-        [progress_text, progress_bar], visible=False)
+    progress_bar_column = ft.Column([progress_text, progress_bar],
+                                    visible=False)
     page.add(progress_bar_column)
 
 
